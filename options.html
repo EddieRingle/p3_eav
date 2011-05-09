@@ -1,0 +1,105 @@
+<html>
+<head><title>My Test Extension Options</title>
+<link href="facebox/facebox.css" type="text/css" rel="stylesheet"></link>
+<script type="text/javascript" src="jquery.js" rel="javascript"></script>
+<script type="text/javascript" src="facebox/facebox.js" rel="javascript"></script>
+<script type="text/javascript">
+var isAuthenticated, ticker, password;
+
+function authenticate(ticker, pass) {
+  var req = "https://api.empireavenue.com/profile/info";
+  var query = { apikey: "b53bcc7831f9f2b72334888025856739cf4d60ee1b0b512872", username: ticker, password: pass };
+  $.ajax({
+    url: req,
+    type: 'GET',
+    data: query,
+    complete: function(data) {
+      if (data.status == 200) {
+        $.facebox("Logged in successfully as " + ticker + ".");
+        localStorage["isAuthenticated"] = 'true';
+        localStorage["ticker"] = ticker;
+        localStorage["password"] = pass;
+        isAuthenticated = 'true';
+        $('#loginarea').fadeOut(function() {
+          $(this).html('Currently logged in as <b>' + ticker + '</b>. Wrong ticker? <a href="#" rel="forgetlogin">Log in as a different user</a>.\n');
+          $(this).fadeIn();
+        });
+      } else if (data.status == 401) {
+        $.facebox("Bad ticker or password, try again.");
+      } else {
+        $.facebox("Unknown error ("+response+"), try again later.");
+      }
+    }
+  });
+}
+
+$(document).ready(function() {
+  isAuthenticated = localStorage["isAuthenticated"];
+  if (isAuthenticated == 'true') {
+    ticker = localStorage["ticker"];
+    password = localStorage["password"];
+  }
+
+  var loggedintext = 'Currently logged in as <b>' + ticker + '</b>. Wrong ticker? <a href="#" rel="forgetlogin">Log in as a different user</a>.\n';
+  var loginform = '<label for="ticker">Ticker</label><br><input type="text" name="ticker"><br><label for="password">Password</label><br><input type="password" name="password"><br><button name="login">Login</button>';
+
+  function decide() {
+    $('#loginarea').hide();
+    if (typeof isAuthenticated !== 'undefined' && isAuthenticated == 'true') {
+      $('#loginarea').html(loggedintext);
+    } else {
+      $('#loginarea').html(loginform);
+    }
+    $('#loginarea').fadeIn();
+  }
+
+  $('input').live('keyup', function(event) {
+    if (event.keyCode == 13) {
+      $('button[name="login"]').click();
+    }
+  });
+
+  $('button[name="login"]').live('click',function() {
+    $.facebox(function() {
+      var ticker = $('input[name="ticker"]').val();
+      var password = $('input[name="password"]').val();
+      if (!ticker || ticker == "" || !password || password == "") {
+        $.facebox("Ticker or password field is empty, try again.");
+        return;
+      }
+      authenticate(ticker.toUpperCase(), password);
+    });
+  });
+
+  $('a[rel="forgetlogin"]').live('click', function() {
+    isAuthenticated = 'false';
+    ticker = "";
+    password = "";
+    localStorage['isAuthenticated'] = 'false';
+    localStorage['ticker'] = "";
+    localStorage['password'] = "";
+    decide();
+  });
+
+  decide();
+});
+
+</script>
+<style type="text/css">
+html, body {
+  font-family: sans-serif;
+}
+</style>
+</head>
+<body>
+<h1>P&#179; for Empire Avenue Options</h1>
+<p>
+  <u>Authentication</u><br/>
+  <div id="loginarea">
+  <script type="text/javascript">
+    
+  </script>
+  </div>
+</p>
+</body>
+</html>

@@ -1,0 +1,113 @@
+div#facebox {
+  position: absolute;
+}
+
+div#facebox-wrap {
+  text-align: center;
+  vertical-align: middle;
+}
+
+#facebox-wrap hr {
+  margin: 5px 0;
+}
+
+#facebox-wrap h6 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+div.userblock-left {
+  display: inline-block;
+  text-align: right;
+  position: relative;
+  left: 0;
+  top: -1px;
+}
+
+div.userblock-left span {
+  display: block;
+}
+
+#facebox-wrap a {
+  color: #2d9dc8;
+}
+
+span.ticker {
+    color: #2D9DC8;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+span.name {
+}
+
+span.location {
+}
+
+div#facebox-wrap > img {
+  display: inline-block;
+  vertical-align: text-bottom;
+  margin: 0 7px;
+  border: 3px solid #dee1de;
+  border-radius: 3px;
+}
+
+div.userblock-right {
+  display: inline-block;
+  position: relative;
+  top: -21px;
+}
+
+div.userblock-right span {
+  display: inline-block;
+}
+
+span.price {
+  background: transparent url(chrome-extension://epdhpajeajjegmcodpljmdhhaapkdghe/e-26.png) no-repeat scroll left;
+  font-size: 1.3em;
+  font-weight: bold;
+  padding-left: 28px;
+  color: #2D9DC8;
+}
+
+span.change:before {
+  content: "(";
+}
+
+span.change:after {
+  content: ")";
+}
+
+.grayblock {
+  background-color: #F5F5F5;
+}
+
+div.infoblock, div.infoblock table, div.infoblock table tr {
+  width: 100%;
+}
+
+div.infoblock table tr td {
+  width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 5px;
+}
+
+div.infoblock table tr td:first-child {
+  text-align: right;
+}
+
+div.infoblock table tr td:nth-child(2) {
+  text-align: left;
+}
+
+span.p3notice {
+  font-size: 0.9em;
+  font-weight: bold;
+  display: block;
+}
+
+span.poweredbyp3 {
+  font-size: 0.75em;
+  display: block;
+}

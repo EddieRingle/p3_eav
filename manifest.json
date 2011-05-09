@@ -1,0 +1,39 @@
+{
+  "name": "EAv P³",
+  "version": "0.1",
+  "description": "The Pirillo Power Pack for Empire Avenue.",
+  "icons": {
+    "16": "icon-16.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  },
+  "options_page": "options.html",
+  "background_page": "background.html",
+  "page_action": {
+    "default_title": "EAv",
+    "default_icon": "page-icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.empireavenue.com/*",
+        "*://empireavenue.com/*",
+        "*://twitter.com/*",
+        "*://*.twitter.com/*"
+      ],
+      "css": ["twitter.css", "facebox/facebox.css"],
+      "js": ["jquery.js", "facebox/facebox.js", "eavp3.js", "eavp3_roi.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "tabs",
+    "*://*.empireavenue.com/*",
+    "*://empireavenue.com/*",
+    "*://twitter.com/*",
+    "*://*.twitter.com/*",
+    "https://api.empireavenue.com/",
+    "http://twitter.com/",
+    "https://twitter.com/"
+  ]
+}

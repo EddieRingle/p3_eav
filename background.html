@@ -1,0 +1,58 @@
+<html>
+  <script type="text/javascript" src="jquery.js" rel="javascript"></script>
+  <script>
+  var first_run = false;
+  if (!localStorage['ran_before']) {
+    first_run = true;
+    localStorage['ran_before'] = '1';
+  }
+
+  if (first_run) {
+    chrome.tabs.create({url: chrome.extension.getURL('options.html')});
+  }
+
+  var user = localStorage['ticker'];
+  var pass = localStorage['password'];
+
+  console.log(user);
+  console.log(pass);
+  chrome.pageAction.onClicked.addListener(function(tab) {
+    if (localStorage['isAuthenticated'] == 'true') {
+      if (tab.url.match(/twitter.com/)) {
+        chrome.tabs.executeScript(null, {file: "eavp3_twitter.js"});
+      }
+    } else {
+      chrome.tabs.create({url: chrome.extension.getURL('options.html')});
+    }
+  });
+
+  chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    if (tab.url.match(/empireavenue.com/)) {
+      if (changeInfo.status === 'complete') {
+        chrome.tabs.executeScript(tabId, {file: "eavp3_roi.js"});
+      }
+    }
+  });
+
+  chrome.extension.onConnect.addListener(function(port) {
+    port.onMessage.addListener(function(msg) {
+      if (msg.action == "show_page_action") {
+        chrome.pageAction.show(port.sender.tab.id);
+      } else if (msg.action == "twitterTickerClicked") {
+        var req = "https://api.empireavenue.com/profile/info";
+        var query = { apikey: "b53bcc7831f9f2b72334888025856739cf4d60ee1b0b512872", ticker: msg.target, username: user, password: pass };
+        console.log(query);
+        $.ajax({url: req, type: 'GET', data: query, complete: function(apidata) {
+          $.ajax({url: "http://empireavenue.com//influencer/portfolio/quickview", type: 'GET', data: {u: msg.target}, complete: function(scrapedata) {
+            var resp = { username: user, apistatus: apidata.status, json: JSON.parse(apidata.responseText), scrapestatus: scrapedata.status, scrape: scrapedata.responseText };
+            console.log(resp);
+            port.postMessage(resp);
+          }
+          });
+        }
+        });
+      }
+    });
+  });
+  </script>
+</html>
