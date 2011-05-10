@@ -63,7 +63,7 @@ div.userblock-right span {
 }
 
 span.price {
-  background: transparent url(chrome-extension://epdhpajeajjegmcodpljmdhhaapkdghe/e-26.png) no-repeat scroll left;
+  background: transparent none no-repeat scroll left;
   font-size: 1.3em;
   font-weight: bold;
   padding-left: 28px;
