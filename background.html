@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <script type="text/javascript" src="jquery.js" rel="javascript"></script>
   <script>
@@ -11,11 +12,6 @@
     chrome.tabs.create({url: chrome.extension.getURL('options.html')});
   }
 
-  var user = localStorage['ticker'];
-  var pass = localStorage['password'];
-
-  console.log(user);
-  console.log(pass);
   chrome.pageAction.onClicked.addListener(function(tab) {
     if (localStorage['isAuthenticated'] == 'true') {
       if (tab.url.match(/twitter.com/)) {
@@ -39,6 +35,8 @@
       if (msg.action == "show_page_action") {
         chrome.pageAction.show(port.sender.tab.id);
       } else if (msg.action == "twitterTickerClicked") {
+        var user = localStorage['ticker'];
+        var pass = localStorage['password'];
         var req = "https://api.empireavenue.com/profile/info";
         var query = { apikey: "b53bcc7831f9f2b72334888025856739cf4d60ee1b0b512872", ticker: msg.target, username: user, password: pass };
         console.log(query);
