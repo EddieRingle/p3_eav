@@ -95,7 +95,7 @@ if(
 	stats.dividend = $("#nmp-stats div:eq(0) span span:eq(3)").text();
 	stats = profitability(stats);
 	
-	$("#profile-achieve").before('<div id="geeklad-extension-stats" style="width: 400px;" class="float-left influencer-stats"><h3>Current Investment Analysis</h3></div><div class="clear"></div>');
+	$("#profile-achieve").before('<div id="geeklad-extension-stats" style="width: 400px; margin: 0 auto" class="influencer-stats"><h3>Current Investment Analysis</h3></div><div class="clear"></div>');
 	$("#geeklad-extension-stats h3").after('<ul> \
 		<li><strong>Daily Dividend Yield:</strong> \
 		<span class="float-right">'+stats.yield+'%</span></li> \
