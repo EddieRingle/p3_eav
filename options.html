@@ -1,5 +1,5 @@
 <html>
-<head><title>My Test Extension Options</title>
+<head><title>P&#179; for Empire Avenue</title>
 <link href="facebox/facebox.css" type="text/css" rel="stylesheet"></link>
 <script type="text/javascript" src="jquery.js" rel="javascript"></script>
 <script type="text/javascript" src="facebox/facebox.js" rel="javascript"></script>
@@ -86,20 +86,82 @@ $(document).ready(function() {
 
 </script>
 <style type="text/css">
-html, body {
+html {
   font-family: sans-serif;
+  width: 100%;
+  text-align: center;
+}
+
+body {
+  width: 720px;
+  margin: 0 auto;
+}
+
+h1 {
+  display: block;
+  padding: 0;
+  margin-top: -20px;
+}
+h3 {
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  text-align: left;
+  margin: 10px 0;
+}
+
+#authentication {
+  background-color: #DDF;
+  border: 2px solid #BBF;
+  padding: 10px 15px;
+}
+
+#issues {
+  background-color: #FCA;
+  border: 2px solid #FA7;
+  padding: 10px 15px;
+}
+
+#opensource {
+  background-color: #CFC;
+  border: 2px solid #ADA;
+  padding: 10px 15px;
+}
+
+#notice {
+  margin-top: 10px;
+  font-size: 0.75em;
+  text-align: center;
 }
 </style>
 </head>
 <body>
-<h1>P&#179; for Empire Avenue Options</h1>
-<p>
-  <u>Authentication</u><br/>
+<img src="icon-128.png" />
+<h1>P&#179; for Empire Avenue</h1>
+<div id="authentication">
+  <u><h3>Authentication</h3></u>
+  <p id="loginmsg"><i>Why do we need this information?</i> We use your Empire Avenue login information to authenticate with Empire Avenue's servers to make API calls. <b>Your information is not viewable by anyone else.</b></p>
   <div id="loginarea">
-  <script type="text/javascript">
-    
-  </script>
   </div>
-</p>
+</div>
+<div id="issues">
+  <u><h3>Suggestions or Issues?</h3></u>
+  <p>Spot a bug or want to suggest an improvement? Do so <a href="http://github.com/eddieringle/p3_eav/issues">here</a>.</p>
+</div>
+<div id="opensource">
+  <u><h3>Hack Away</h3></u>
+  <p>P&#179; for Empire Avenue is completely open source. If you spotted a bug
+  or have an idea for an improvement and you're capable of coding it yourself,
+  <a href="http://github.com/eddieringle/p3_eav">fork this project on GitHub</a>
+  and start hacking, then send over a pull request when you've finished.</p>
+</div>
+  
+<div id="notice">
+  <a href="https://chrome.google.com/webstore/detail/nicoicbaoinjgpcclfjdkfimngkgogdl">P&#179; for Empire Avenue</a><br/>
+  by<br/>
+  <a href="http://eddieringle.com">Eddie Ringle</a> and <a href="http://chris.pirillo.com">Chris Pirillo</a>
+</div>
 </body>
 </html>
