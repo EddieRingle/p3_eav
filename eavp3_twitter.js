@@ -5,7 +5,7 @@ $('.tweet-text').each(function() {
   $(this).html(newhtml);
 
   $(this).find('a[ticker]').each(function() {
-    var ticker = $(this).attr('ticker');
+    var ticker = $(this).attr('ticker').toUpperCase();
     $(this).click(function() {
       $.facebox(function() {
         var port = chrome.extension.connect({name: "twitterTickerClicked"});
