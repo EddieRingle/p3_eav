@@ -15,7 +15,6 @@ function authenticate(ticker, pass) {
     data: query,
     complete: function(data) {
       if (data.status == 200) {
-        $.facebox("Logged in successfully as " + ticker + ".");
         localStorage["isAuthenticated"] = 'true';
         localStorage["ticker"] = ticker;
         localStorage["password"] = pass;
@@ -25,9 +24,15 @@ function authenticate(ticker, pass) {
           $(this).fadeIn();
         });
       } else if (data.status == 401) {
-        $.facebox("Bad ticker or password, try again.");
+        $("#loginarea").fadeOut(function(){
+          $(this).html("Bad ticker or password, <a href=\"#\" class=\"tryagain\">try again</a>.");
+          $(this).fadeIn();
+        });
       } else {
-        $.facebox("Unknown error ("+response+"), try again later.");
+        $("#loginarea").fadeOut(function(){
+          $(this).html("Unknown response code ("+data.status+"), <a href=\"#\" class=\"tryagain\">try again</a> later.");
+          $(this).fadeIn();
+        });
       }
     }
   });
@@ -59,16 +64,24 @@ $(document).ready(function() {
     }
   });
 
-  $('button[name="login"]').live('click',function() {
-    $.facebox(function() {
-      var ticker = $('input[name="ticker"]').val();
-      var password = $('input[name="password"]').val();
-      if (!ticker || ticker == "" || !password || password == "") {
-        $.facebox("Ticker or password field is empty, try again.");
-        return;
-      }
-      authenticate(ticker.toUpperCase(), password);
+  $('a.tryagain').live('click', function() {
+    $("#loginarea").fadeOut(function(){
+      $(this).html(loginform);
+      $(this).fadeIn();
     });
+  });
+
+  $('button[name="login"]').live('click',function() {
+    var ticker = $('input[name="ticker"]').val();
+    var password = $('input[name="password"]').val();
+    if (!ticker || ticker == "" || !password || password == "") {
+      $("#loginarea").fadeOut(function(){
+        $(this).html("Ticker or password field is empty, <a href=\"#\" class=\"tryagain\">try again</a>.");
+        $(this).fadeIn();
+      });
+      return;
+    }
+    authenticate(ticker.toUpperCase(), password);
   });
 
   $('a[rel="forgetlogin"]').live('click', function() {
