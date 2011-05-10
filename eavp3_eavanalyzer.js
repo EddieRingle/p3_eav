@@ -85,6 +85,7 @@ $(document).bind('DOMNodeInserted', function (e) {
 if(
 	$("#option-bar ul li:eq(0)").attr("class") == "current"
 	&& $("#nmp-stats div:eq(0) span span:eq(3)").length == 1
+	&& $("#geeklad-extension-stats").length == 0
 	) {
 	// First remove our mutation event so we don't mess things up
 	$(document).unbind('DOMNodeInserted');
