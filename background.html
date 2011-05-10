@@ -26,6 +26,7 @@
     if (tab.url.match(/empireavenue.com/)) {
       if (changeInfo.status === 'complete') {
         chrome.tabs.executeScript(tabId, {file: "eavp3_roi.js"});
+        chrome.tabs.executeScript(tabId, {file: "eavp3_eavanalyzer.js"});
       }
     }
   });
