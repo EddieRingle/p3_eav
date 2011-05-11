@@ -27,6 +27,7 @@ function purchaseStats(stats) {
 	stats.breakeven = round((stats.purchase_amount + stats.commissions_paid) / 0.95 / stats.shares_owned, 3);
 	stats.real_gain = round(stats.price*.95*stats.shares_owned - stats.purchase_amount - stats.commissions_paid, 3);
 	stats.real_gain_per_share = round(stats.real_gain / stats.shares_owned, 3);
+	stats.cap_appreciation = round(100*stats.real_gain / stats.purchase_amount, 2);
 	
 	return stats;
 }
@@ -66,14 +67,47 @@ $(document).bind('DOMNodeInserted', function (e) {
 			// Display the profitability stats
 			$(".influencer-stats ul li:contains('Shares They Own In You')").before('<li><strong>Your Average Purchase Price:</strong><span class="float-right">'+(stats.purchase_price)+'</span></li>');
 			$(".influencer-stats ul li:contains('Shares They Own In You')").before('<li><strong>Your Breakeven Price:</strong><span class="float-right">'+stats.breakeven+'</span></li>');
-			$(".influencer-stats ul li:contains('Shares They Own In You')").before('<li><strong>Your Real Gain per Share:</strong><span class="float-right">'+(stats.real_gain_per_share > 0 ? "+" : "")+stats.real_gain_per_share+'</span></li>');
-			$(".influencer-stats ul li:contains('Shares They Own In You')").before('<li><strong>Your Real Total Gain:</strong><span class="float-right">'+(stats.real_gain_per_share > 0 ? "+" : "")+stats.real_gain+'</span></li>');
+			$(".influencer-stats ul li:contains('Shares They Own In You')").before('<li><strong>Gain/Share after Commissions:</strong><span class="float-right">'+(stats.real_gain_per_share > 0 ? "+" : "")+stats.real_gain_per_share+'</span></li>');
+			$(".influencer-stats ul li:contains('Shares They Own In You')").before('<li><strong>Total Gain after Commissions:</strong><span class="float-right">'+(stats.real_gain_per_share > 0 ? "+" : "")+stats.real_gain+'</span></li>');
+			$(".influencer-stats ul li:contains('Shares They Own In You')").before('<li><strong>Total % Gain after Commissions:</strong><span class="float-right">'+stats.cap_appreciation+'%</span></li>');
 			if(stats.real_gain > 0) {
-				$(".influencer-stats ul li:contains('Your Real') span").addClass("ticker-up").css("font-weight", "bold");
+				$(".influencer-stats ul li:contains('Total Gain') span").addClass("ticker-up").css("font-weight", "bold");
+				$(".influencer-stats ul li:contains('Total % Gain') span").addClass("ticker-up").css("font-weight", "bold");
+				$(".influencer-stats ul li:contains('Gain/Share') span").addClass("ticker-up").css("font-weight", "bold");
 			}
 			else if(stats.real_gain < 0) {
-				$(".influencer-stats ul li:contains('Your Real') span").addClass("ticker-down").css("font-weight", "bold");
+				$(".influencer-stats ul li:contains('Total % Gain') span").addClass("ticker-down").css("font-weight", "bold");
+				$(".influencer-stats ul li:contains('Total Gain') span").addClass("ticker-down").css("font-weight", "bold");
+				$(".influencer-stats ul li:contains('Gain/Share') span").addClass("ticker-down").css("font-weight", "bold");
 			}
+			
+			// Get the dividend history
+			port.postMessage({
+				action: "getDividends", 
+				ticker: $(".pf-info-title a:eq(1)").text()
+			});
+			port.onMessage.addListener(function(msg) {
+				if(!stats.dividends) {
+					stats.dividends = 0;
+					if(msg.json.data.length > 0) {
+						for(x in msg.json.data) {
+							stats.dividends += parseFloat(msg.json.data[x].dividend);
+						}
+					}
+					stats.dividends = round(stats.dividends, 3);
+					stats.total_return = round(stats.real_gain + stats.dividends, 3);
+					stats.roi = round(100*stats.total_return / stats.purchase_amount, 2);
+					$(".influencer-stats ul li:contains('Shares They Own In You')").before('<li><strong>Your Accumulated Dividends:</strong><span class="float-right">'+stats.dividends+'</span></li>');
+					$(".influencer-stats ul li:contains('Shares They Own In You')").before('<li><strong>Total Return with Dividends:</strong><span class="float-right">'+(stats.total_return > 0 ? "+" : "")+stats.total_return+'</span></li>');
+					$(".influencer-stats ul li:contains('Shares They Own In You')").before('<li><strong>Total ROI with Dividends:</strong><span class="float-right">'+stats.roi+'%</span></li>');
+					if(stats.total_return > 0) {
+						$(".influencer-stats ul li:contains('Total R') span").addClass("ticker-up").css("font-weight", "bold");
+					}
+					else if(stats.total_return < 0) {
+						$(".influencer-stats ul li:contains('Total R') span").addClass("ticker-down").css("font-weight", "bold");
+					}
+				}
+			});
 		}
 	}
 });
@@ -117,16 +151,22 @@ if(
 			<span class="float-right">'+stats.purchase_price+'</span></li> \
 			<li><strong>Your Break Even Price:</strong> \
 			<span class="float-right">'+stats.breakeven+'</span></li> \
-			<li><strong>Your Real Gain per Share:</strong> \
+			<li><strong>Gain/Share after Commissions:</strong> \
 			<span class="float-right">'+(stats.real_gain_per_share > 0 ? "+" : "")+stats.real_gain_per_share+'</span></li> \
-			<li><strong>Your Real Total gain:</strong> \
+			<li><strong>Total Gain after Commissions:</strong> \
 			<span class="float-right">'+(stats.real_gain_per_share > 0 ? "+" : "")+stats.real_gain+'</span></li> \
+			<li><strong>Total % Gain after Commissions:</strong> \
+			<span class="float-right">'+(stats.real_gain_per_share > 0 ? "+" : "")+stats.cap_appreciation+'%</span></li> \
 		</ul>');
 		if(stats.real_gain > 0) {
-			$("#geeklad-extension-stats ul li:contains('Your Real') span").addClass("ticker-up").css("font-weight", "bold");
+			$("#geeklad-extension-stats ul li:contains('Total Gain') span").addClass("ticker-up").css("font-weight", "bold");
+			$("#geeklad-extension-stats ul li:contains('Total % Gain') span").addClass("ticker-up").css("font-weight", "bold");
+			$("#geeklad-extension-stats ul li:contains('Gain/Share') span").addClass("ticker-up").css("font-weight", "bold");
 		}
 		else if(stats.real_gain < 0) {
-			$("#geeklad-extension-stats ul li:contains('Your Real') span").addClass("ticker-down").css("font-weight", "bold");
+			$("#geeklad-extension-stats ul li:contains('Total Gain') span").addClass("ticker-down").css("font-weight", "bold");
+			$("#geeklad-extension-stats ul li:contains('Total % Gain') span").addClass("ticker-down").css("font-weight", "bold");
+			$("#geeklad-extension-stats ul li:contains('Gain/Share') span").addClass("ticker-down").css("font-weight", "bold");
 		}
 	}
 }
