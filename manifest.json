@@ -22,7 +22,7 @@
         "*://*.twitter.com/*"
       ],
       "css": ["twitter.css", "facebox/facebox.css"],
-      "js": ["jquery.js", "facebox/facebox.js", "eavp3.js", "eavp3_roi.js", "eavp3_eavanalyzer.js"],
+      "js": ["jquery.js", "facebox/facebox.js", "eavp3.js"],
       "run_at": "document_idle"
     }
   ],
