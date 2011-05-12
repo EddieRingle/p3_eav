@@ -8,8 +8,13 @@ jQuery(document).ready(function($) {
       dividend = $('#nmp-stats div:first > span:last > span:first > a').html().trim();
       divamt = $('#nmp-stats div:first > span:first > span:first > a').html().trim();
     } catch(e) {
-      dividend = $('#nmp-stats div:nth-child(4) > span:last > span:first > a').html().trim();
-      divamt = $('#nmp-stats div:nth-child(4) > span:first > span:first > a').html().trim();
+      // If at first you don't succeed, try/catch again
+      try {
+        dividend = $('#nmp-stats div:nth-child(4) > span:last > span:first > a').html().trim();
+        divamt = $('#nmp-stats div:nth-child(4) > span:first > span:first > a').html().trim();
+      } catch(e) {
+        return;  // Give it up already
+      }
     }
 
     divamt = divamt.replace(/\,/g, '');
