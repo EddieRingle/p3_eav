@@ -38,7 +38,7 @@ $('.tweet-text').each(function() {
               console.log($(msg.scrape));
               var avgdiv = $(msg.scrape).find('div.influencer-stats ul li strong:contains("Average Daily Dividend:") + span').html();
               var avgdivshare = parseFloat($(msg.scrape).find('div.influencer-stats ul li strong:contains("Average Daily Dividend/Share:") + span').html());
-              var avgroi = avgdivshare / parseFloat(json.last_trade);
+              var divyield = avgdivshare / parseFloat(json.last_trade);
               $.facebox('<div id="facebox-wrap">\n'
                     + '<div class="userblock-left">\n'
                     + '<span class="ticker"><a href="http://empireavenue.com/' + ticker + '" target="_blank">' + ticker + '</a></span>\n'
@@ -72,8 +72,8 @@ $('.tweet-text').each(function() {
                     + '<td>' + avgdiv + '</td></tr>\n'
                     + '<tr class="grayblock avgdivshare scrape"><td>Avg. Daily Div/Share:</td>\n'
                     + '<td>' + avgdivshare + '</td></tr>\n'
-                    + '<tr class="avgroi scrape"><td>Current Average ROI</td>\n'
-                    + '<td>' + (avgroi * 100.0).toFixed(2) + '%</td></tr>\n'
+                    + '<tr class="divyield scrape"><td>Current Dividend Yield:</td>\n'
+                    + '<td>' + (divyield * 100.0).toFixed(2) + '%</td></tr>\n'
                     + '</table>\n'
                     + '</div>\n'
                     + '<span class="p3notice"></span>\n'
