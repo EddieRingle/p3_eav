@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-  if ($('span.eavroi').length == 0) {
+  if ($('span.eavdivyield').length == 0) {
     var currency = $('#eavtitle div.price span.currency');
     var price = $('a', currency).html().trim();
     var dividend;
@@ -19,31 +19,31 @@ jQuery(document).ready(function($) {
 
     divamt = divamt.replace(/\,/g, '');
 
-    var roi = dividend / price;
-    var roip = parseFloat((roi * 100).toFixed(2));
+    var divyield = dividend / price;
+    var divyieldp = parseFloat((divyield * 100).toFixed(2));
 
     if (divamt >= 150000) {
-      roip += 0.2;
+      divyieldp += 0.2;
     }
 
     var color;
 
-    if (roip <= 0.65) {
+    if (divyieldp <= 0.65) {
       color = "#CC0033";
-    } else if(roip >= 0.75 && roip < 1.00) {
+    } else if(divyieldp >= 0.75 && divyieldp < 1.00) {
       color = "#FFBB00";
-    } else if (roip >= 1.00 && roip < 2.00) {
+    } else if (divyieldp >= 1.00 && divyieldp < 2.00) {
       color = "#009900";
-    } else if (roip >= 2.00) {
+    } else if (divyieldp >= 2.00) {
       color = "#0075F5";
     } else {
       color = "#000";
     }
 
     if (divamt >= 150000) {
-      roip -= 0.2;
+      divyieldp -= 0.2;
     }
-    currency.append('<br/><span class="eavroi" style="font-size: 12px;display:none;">ROI Right Now: <span style="color:' + color + ';">' + roip.toFixed(2) + '%</span></span>');
-    $('span.eavroi').fadeIn();
+    currency.append('<br/><span class="eavdivyield" style="font-size: 12px;display:none;">Current Dividend Yield: <span style="color:' + color + ';">' + divyieldp.toFixed(2) + '%</span></span>');
+    $('span.eavdivyield').fadeIn();
   }
 });

@@ -25,8 +25,8 @@
   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if (tab.url.match(/empireavenue.com/)) {
       if (changeInfo.status === 'complete') {
-        chrome.tabs.executeScript(tabId, {file: "eavp3_roi.js"});
-        chrome.tabs.executeScript(tabId, {file: "eavp3_eavanalyzer.js"});
+        chrome.tabs.executeScript(tabId, {file: "eavp3_eav_divyield.js"});
+        chrome.tabs.executeScript(tabId, {file: "eavp3_eav_analyzer.js"});
       }
     }
   });
