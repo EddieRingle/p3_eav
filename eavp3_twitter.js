@@ -100,7 +100,6 @@ $('.tweet-text').each(function() {
           }
         });
       });
-      chrome.extension.sendRequest('twitter_ticker_clicked');
       return false;
     });
   });
