@@ -34,8 +34,6 @@ $('.tweet-text').each(function() {
                 changetxt = change.toFixed(2);
                 color = "#000";
               }
-              console.log(msg);
-              console.log($(msg.scrape));
               var avgdiv = $(msg.scrape).find('div.influencer-stats ul li strong:contains("Average Daily Dividend:") + span').html();
               var avgdivshare = parseFloat($(msg.scrape).find('div.influencer-stats ul li strong:contains("Average Daily Dividend/Share:") + span').html());
               var divyield = avgdivshare / parseFloat(json.last_trade);
