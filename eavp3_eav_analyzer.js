@@ -54,10 +54,14 @@ function outputStats(stats) {
 				$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="Loading dividend history..."><li><img src="http://www.empireavenue.com/public/images/skylark/loader.gif" align="middle"></li></label>');
 			}
 			// Get the ticker
-			if($(".pf-info-title a:eq(1)").length == 1)
-				ticker = $(".pf-info-title a:eq(1)").text();
-			else
-				ticker = $("#nameplate-ticker").text().trim();
+			if ($('#quickview-rightV2').length == 1) {
+			  ticker = $('.pf-info-title > a:eq(2)').text();
+			} else {
+			  if($(".pf-info-title a:eq(1)").length == 1)
+				  ticker = $(".pf-info-title a:eq(1)").text();
+			  else
+				  ticker = $("#nameplate-ticker").text().trim();
+		  }
 			
 			// Send the request to obtain the dividends
 			port.postMessage({
@@ -154,7 +158,11 @@ $(document).bind('DOMNodeInserted', function (e) {
 		&& $(".influencer-stats ul li:contains('Shares They Own In You') span").length == 1
 	) {
 		// Get the stats
-		stats.price = $(".influencer-stats ul li:contains('Share Price') span").text().match(/^\s+(\d+\.\d+)\s/)[1];
+		if ($('#quickview-rightV2').length == 0) {
+		  stats.price = $(".influencer-stats ul li:contains('Share Price') span").text().match(/^\s+(\d+\.\d+)\s/)[1];
+		} else {
+		  stats.price = parseFloat($("span.profile-price").text());
+		}
 		stats.dividend = $(".influencer-stats ul li:contains('Daily Dividend/Share') span").text();
 		stats.shares_owned = $(".influencer-stats ul li:contains('Shares Owned By You') span").first().text().match(/(\d+)\s?/)[1];
 		if(stats.shares_owned != "0") {
