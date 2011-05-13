@@ -51,7 +51,7 @@ function outputStats(stats) {
 		if(stats.shares_owned > 0) {
 			// Add a loading icon
 			if($(".influencer-stats ul li img[src='http://www.empireavenue.com/public/images/skylark/loader.gif']").length == 0) {
-				$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="Loding dividend history..."><li><img src="http://www.empireavenue.com/public/images/skylark/loader.gif" align="middle"></li></label>');
+				$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="Loading dividend history..."><li><img src="http://www.empireavenue.com/public/images/skylark/loader.gif" align="middle"></li></label>');
 			}
 			// Get the ticker
 			if($(".pf-info-title a:eq(1)").length == 1)
@@ -100,7 +100,12 @@ function outputStats(stats) {
 					stats.effective_dividend_yield = 0;
 				}
 				stats.dividends = round(stats.dividends, 3);
-				
+
+        // Output rolling X-day dividend total
+        if ($('span.xdaydivs').length == 0) {
+          $("span.currency").append('<br/><span class="xdaydivs" style="font-size: 12px">' + stats.dividend_days + '-Day Dividends: <span style="color: #f80;">' + stats.average_dividends.toFixed(2) + '<span style="font-size: 10px"> Avg</span></span> / <span style="color: #c50;">' + stats.dividends.toFixed(2) + '<span style="font-size: 10px"> Total</span></span></span>');
+        }
+
 				// Output the dividend stats
 				if($(".influencer-stats ul li:contains('Total ROI with Dividends')").length == 0) {
 					$(".influencer-stats ul li img[src='http://www.empireavenue.com/public/images/skylark/loader.gif']").parent().parent().remove();
@@ -138,6 +143,7 @@ function outputStats(stats) {
 			});
 		}
 	}
+	return stats;
 }
 
  // Mutation event to handle the loading of stocks on a portfolio/list page
@@ -181,5 +187,6 @@ if(
 	stats = getStats(stats);	
 	$("#profile-achieve").before('<div style="width: 400px; margin: 0 auto" class="influencer-stats"><h3>Current Investment Analysis</h3></div><div class="clear"></div>');
 	$(".influencer-stats h3").after('<ul><li><strong>Shares Owned By You:</strong><span class="float-right">'+stats.shares_owned+'</span></li></ul>');
+	$("#nmp-influence").css('margin-left', '0');
 	outputStats(stats);
 }
