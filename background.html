@@ -29,6 +29,9 @@
         chrome.tabs.executeScript(tabId, {file: "eavp3_eav_analyzer.js"});
       }
     }
+	if (tab.url.match(/empireavenue\.com\/search\/recent/)) {
+        chrome.tabs.executeScript(tabId, {file: "eavp3_recent_arrivals.js"});
+	}
   });
 
   chrome.extension.onConnect.addListener(function(port) {
@@ -63,6 +66,41 @@
 		  $.ajax({
 			url: req, type: 'GET', data: query, complete: function(dividenddata) {
 			  var resp = { apistatus: dividenddata.status, json: JSON.parse(dividenddata.responseText) };
+			  port.postMessage(resp);
+			}
+		  });
+          break;    
+		
+		case "getProfileData":
+		  var req = "http://www.empireavenue.com/"+msg.ticker;
+		  $.ajax({
+			url: req, type: 'GET', complete: function(profilepage) {
+			  // Build the response object
+			  resp = {
+			    ticker: msg.ticker,
+				connections: {}
+			  };
+			  
+			  // Let's do some regex magic to get as much good info from the profile page as we can
+			  // First get the connections HTML
+			  connections = profilepage.responseText.match(/<div id="nmp-influence(?:(?!<div class="clear )[\s\S])+/)[0].match(/".+-top(?:(?!<\/a><\/div>)[\s\S])+<\/a><\/div>/g);
+			  
+			  // Get the stats for each connection
+			  for(x in connections) {
+				connection_type = connections[x].match(/^"([^-]+)/)[1].replace(/eave/, "ea");
+				connection_value = connections[x].match(/\)">(.*)/)[1].replace(/&mdash;|&nbsp;/, "-").replace(/<\/a><\/div>/, "");
+				connection_url = false;
+				// If it's not an ea or web connection, get the URL
+				if(connection_type != "ea" && connection_type != "web") {
+					connection_url = connections[x].replace(/(?:(?!open\(')[\s\S])+open\('([^']+)'[\s\S]*/, "$1");
+				}
+				if(connection_type != "web")
+					resp.connections[connection_type] = {value: connection_value};
+					if(connection_url)
+						resp.connections[connection_type].url = connection_url;
+			  }
+			  
+			  // Send back the response
 			  port.postMessage(resp);
 			}
 		  });
