@@ -156,7 +156,7 @@ $(document).bind('DOMNodeInserted', function (e) {
 	// Check to see if the influencer-stats class was added and make sure we haven't already added the daily dividend yield
 	if(
 		$(".influencer-stats ul li:contains('Daily Dividend Yield')").length == 0
-		&& $(".influencer-stats ul li:contains('Shares They Own In You') span").length == 1
+		&& $(".influencer-stats ul li:contains('Shares They Own In You')").length > 0
 	) {
 		// Get the stats
 		if ($('#quickview-rightV2').length == 0) {
