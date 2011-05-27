@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
     if (divamt >= 150000) {
       divyieldp -= 0.2;
     }
-    currency.append('<br/><span class="eavdivyield" style="font-size: 12px;display:none;">Current Dividend Yield: <span style="color:' + color + ';">' + divyieldp.toFixed(2) + '%</span></span>');
+    currency.append('<br/><span class="eavdivyield" style="float:left;font-size: 12px;display:none;margin-top:5px;">Current Dividend Yield: <span style="color:' + color + ';">' + divyieldp.toFixed(2) + '%</span></span>');
     $('span.eavdivyield').fadeIn();
   }
 });

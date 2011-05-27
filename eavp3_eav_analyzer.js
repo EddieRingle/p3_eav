@@ -1,3 +1,5 @@
+$("div#buysell-block").css("clear", "both");
+
 var stats ={};
 function round(number, digits) {
 	return Math.round(parseFloat(number*Math.pow(10, digits)))/Math.pow(10, digits);
@@ -107,7 +109,7 @@ function outputStats(stats) {
 
         // Output rolling X-day dividend total
         if ($('span.xdaydivs').length == 0 && stats.dividend_days >= 0) {
-          $("span.currency").append('<br/><span class="xdaydivs" style="font-size: 12px;position:relative;top:-16px">' + stats.dividend_days + '-Day Dividends: <span style="margin: 0;max-width: 125px;display:inline-block;position:relative;top:16px"><span style="color: #f80;">' + stats.average_dividends.toFixed(2) + ' Daily Average</span><br/><span style="color: #c50;">' + stats.dividends.toFixed(2) + ' Total</span></span></span>');
+          $("span.currency").append('<br/><span class="xdaydivs" style="float:left;clear:both;font-size: 12px;position:relative;top:-14px">' + stats.dividend_days + '-Day Dividends: <span style="margin: 0;display:inline-block;position:relative;top:16px;overflow:hidden;text-wrap:none;"><span style="color: #f80;">' + stats.average_dividends.toFixed(2) + '</span> (Daily Avg.)<br/><span style="color: #c50;">' + stats.dividends.toFixed(2) + '</span> (Total)</span></span><div style="clear:both"></div>');
         }
 
 				// Output the dividend stats
