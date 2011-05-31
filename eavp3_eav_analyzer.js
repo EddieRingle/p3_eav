@@ -115,7 +115,7 @@ function outputStats(stats) {
 				// Output the dividend stats
 				if($(".influencer-stats ul li:contains('Total ROI with Dividends')").length == 0) {
 					$(".influencer-stats ul li img[src='http://www.empireavenue.com/public/images/skylark/loader.gif']").parent().parent().remove();
-					$(".influencer-stats ul li:contains('Shares Owned By You')").before('<li><h3 align="middle">Your Ownerhsip Stats</h3></li>');
+					$(".influencer-stats ul li:contains('Shares Owned By You')").before('<li><h3 align="middle">Your Ownership Stats</h3></li>');
 					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="This is the percentage gain you have earned, accounting for purchase and sale commissions and dividends you\'ve accumulated, based on your average purchase price."><li><strong>Total ROI with Dividends:</strong><span class="float-right">'+stats.roi+'%</span></li></title>');
 					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="This is how much you\'ve earned in total including dividends and the stock increase/decrease, accounting for the commissions you paid on purchase and commissions you would pay were you to sell at the current price."><li><strong>Total Return with Dividends:</strong><span class="float-right">'+(stats.total_return > 0 ? "+" : "")+stats.total_return+'</span></li></title>');
 					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="How many days it will take to accumulate enough dividends to reach your breakeven, based on your average daily dividends."><li><strong>Days to Pay Back (w/ Avg Daily Dividends):</strong><span class="float-right">'+(stats.effective_dividend_payback)+'</span></li></label>');
