@@ -46,9 +46,20 @@
           $.ajax({
             url: req, type: 'GET', data: query, complete: function(apidata) {
               $.ajax({
-                url: "http://empireavenue.com//influencer/portfolio/quickview", type: 'GET', data: {u: msg.target}, complete: function(scrapedata) {
-                  var resp = { username: user, apistatus: apidata.status, json: JSON.parse(apidata.responseText), scrapestatus: scrapedata.status, scrape: scrapedata.responseText };
-                  port.postMessage(resp);
+                url: "http://empireavenue.com/influencer/portfolio/quickview", type: 'GET', data: {u: msg.target}, complete: function(qvscrapedata) {
+                  $.ajax({
+                    url: "http://empireavenue.com/" + msg.target, type: 'GET', complete: function(profiledata) {
+                      var resp = {
+                        username: user,
+                        apistatus: apidata.status,
+                        json: JSON.parse(apidata.responseText),
+                        qvscrapestatus: qvscrapedata.status,
+                        qvscrape: qvscrapedata.responseText,
+                        profilestatus: profiledata.status,
+                        profile: profiledata.responseText};
+                      port.postMessage(resp);
+                    }
+                  });
                 }
               });
             }

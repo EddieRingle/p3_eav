@@ -111,3 +111,47 @@ span.poweredbyp3 {
   font-size: 0.75em;
   display: block;
 }
+
+#eavp3-profile-block {
+    width: 100%;
+    margin: 10px 0;
+}
+
+#eavp3-profile-block div {
+    padding: 0px;
+    margin: 0 auto;
+    text-align: left;
+    width: 150px;
+}
+
+#eavp3-profile-block div a {
+    background-repeat: no-repeat;
+    background-position: 0px 5px;
+    padding: 3px;
+    padding-left: 20px;
+    color: #2D9DC8;
+    text-decoration: underline;
+    display: block;
+}
+
+#eavp3-profile-block div a:hover {
+    text-decoration: none;
+}
+
+#eavp3-profile-twitter {
+}
+
+#eavp3-profile-facebook {
+}
+
+#eavp3-profile-fanpage {
+}
+
+#eavp3-profile-linkedin {
+}
+
+#eavp3-profile-flickr {
+}
+
+#eavp3-profile-youtube {
+}
