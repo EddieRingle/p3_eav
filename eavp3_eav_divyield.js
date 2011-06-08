@@ -28,9 +28,9 @@ jQuery(document).ready(function($) {
 
     var color;
 
-    if (divyieldp <= 0.65) {
+    if (divyieldp <= 0.70) {
       color = "#CC0033";
-    } else if(divyieldp >= 0.75 && divyieldp < 1.00) {
+    } else if(divyieldp >= 0.70 && divyieldp < 1.00) {
       color = "#FFBB00";
     } else if (divyieldp >= 1.00 && divyieldp < 2.00) {
       color = "#009900";
