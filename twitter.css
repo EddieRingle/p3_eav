@@ -63,11 +63,19 @@ div.userblock-right span {
 }
 
 span.price {
+  position: relative;
   background: transparent none no-repeat scroll left;
   font-size: 1.3em;
   font-weight: bold;
   padding-left: 28px;
+  top: 20px;
   color: #2D9DC8;
+}
+
+span.change {
+    position: relative;
+    top: 15px;
+    left: 10px;
 }
 
 span.change:before {

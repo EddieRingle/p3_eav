@@ -69,7 +69,7 @@ $('.tweet-text').each(function() {
                     + '</div>\n'
                     + '<img src="' + json.sm_portrait + '" alt="" />\n'
                     + '<div class="userblock-right">\n'
-                    + '<span class="price" style="background-image: url(' + chrome.extension.getURL('e-26.png') + ')">' + parseFloat(json.last_trade).toFixed(2) + '</span>\n'
+                    + '<span class="price" style="background-image: url(' + chrome.extension.getURL('e-26.png') + ')">' + parseFloat(json.last_trade).toFixed(2) + '</span><br/>\n'
                     + '<span class="change" style="color:' + color + '">' + changetxt + '</span>\n'
                     + '</div>\n'
                     + profilehtml
