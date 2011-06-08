@@ -38,46 +38,29 @@ $('.tweet-text').each(function() {
               var avgdivshare = parseFloat($(msg.qvscrape).find('div.influencer-stats ul li strong:contains("Average Daily Dividend/Share:") + span').html());
               var divyield = avgdivshare / parseFloat(json.last_trade);
               var profilebox = $(msg.profile).find('#nmp-influence');
-              var twitterurl = $(profilebox).find('div .twitter-top').attr('onclick');
               var facebookurl = $(profilebox).find('div .facebook-top').attr('onclick');
               var fanpageurl = $(profilebox).find('div .fanpage-top').attr('onclick');
               var linkedinurl = $(profilebox).find('div .linkedin-top').attr('onclick');
               var flickrurl = $(profilebox).find('div .flickr-top').attr('onclick');
               var youtubeurl = $(profilebox).find('div .youtube-top').attr('onclick');
               var profilehtml = '<div id="eavp3-profile-block">\n';
-              profilehtml += '<h6>' + json.full_name + '\'s Social Connections</h6>\n';
-              var hasSocial = false;
               profilehtml += '<div id="eavp3-profile-links">\n';
-              if (typeof twitterurl !== 'undefined') {
-                profilehtml += '<a href="' + twitterurl + '" id="eavp3-profile-twitter" style="background-image: url(' + chrome.extension.getURL('images/twitter_16.png') + ')">Twitter</a>\n';
-                hasSocial = true;
-              }
               if (typeof facebookurl !== 'undefined') {
-                profilehtml += '<a href="' + facebookurl + '" id="eavp3-profile-facebook" style="background-image: url(' + chrome.extension.getURL('images/facebook_16.png') + ')">Facebook</a>\n';
-                hasSocial = true;
+                profilehtml += '<a href="' + facebookurl + '" id="eavp3-profile-facebook"><img src="' + chrome.extension.getURL('images/facebook_16.png') + '" alt="Facebook" /></a>\n';
               }
               if (typeof fanpageurl !== 'undefined') {
-                profilehtml += '<a href="' + fanpageurl + '" id="eavp3-profile-fanpage" style="background-image: url(' + chrome.extension.getURL('images/fb_fanpage_16.png') + ')">Facebook Fanpage</a>\n';
-                hasSocial = true;
+                profilehtml += '<a href="' + fanpageurl + '" id="eavp3-profile-fanpage"><img src="' + chrome.extension.getURL('images/fb_fanpage_16.png') + '" alt="Facebook Fan Page" /></a>\n';
               }
               if (typeof linkedinurl !== 'undefined') {
-                profilehtml += '<a href="' + linkedinurl + '" id="eavp3-profile-linkedin" style="background-image: url(' + chrome.extension.getURL('images/linkedin_16.png') + ')">LinkedIn</a>\n';
-                hasSocial = true;
+                profilehtml += '<a href="' + linkedinurl + '" id="eavp3-profile-linkedin"><img src="' + chrome.extension.getURL('images/linkedin_16.png') + '" alt="LinkedIn" /></a>\n';
               }
               if (typeof flickrurl !== 'undefined') {
-                profilehtml += '<a href="' + flickrurl + '" id="eavp3-profile-flickr" style="background-image: url(' + chrome.extension.getURL('images/flickr_16.png') + ')">Flickr</a>\n';
-                hasSocial = true;
+                profilehtml += '<a href="' + flickrurl + '" id="eavp3-profile-flickr"><img src="' + chrome.extension.getURL('images/flickr_16.png') + '" alt="Flickr" /></a>\n';
               }
               if (typeof youtubeurl !== 'undefined') {
-                profilehtml += '<a href="' + youtubeurl + '" id="eavp3-profile-youtube" style="background-image: url(' + chrome.extension.getURL('images/youtube_16.png') + ')">Youtube</a>\n';
-                hasSocial = true;
+                profilehtml += '<a href="' + youtubeurl + '" id="eavp3-profile-youtube"><img src="' + chrome.extension.getURL('images/youtube_16.png') + '" alt="Youtube" /></a>\n';
               }
-              profilehtml += '</div>\n';
-              if (hasSocial === false) {
-                profilehtml += '<div id="eavp3-profile-none">' + json.full_name
-                        + ' has no social connections set up!</div>\n';
-              }
-              profilehtml += '</div>\n';
+              profilehtml += '</div>\n</div>\n';
               $.facebox('<div id="facebox-wrap">\n'
                     + '<div class="userblock-left">\n'
                     + '<span class="ticker"><a href="http://empireavenue.com/' + ticker + '" target="_blank">' + ticker + '</a></span>\n'
@@ -89,6 +72,7 @@ $('.tweet-text').each(function() {
                     + '<span class="price" style="background-image: url(' + chrome.extension.getURL('e-26.png') + ')">' + parseFloat(json.last_trade).toFixed(2) + '</span>\n'
                     + '<span class="change" style="color:' + color + '">' + changetxt + '</span>\n'
                     + '</div>\n'
+                    + profilehtml
                     + '<hr/>\n'
                     + '<h6>Ticker Information</h6>\n'
                     + '<div class="infoblock">\n'
@@ -115,7 +99,6 @@ $('.tweet-text').each(function() {
                     + '<td>' + (divyield * 100.0).toFixed(2) + '%</td></tr>\n'
                     + '</table>\n'
                     + '</div>\n'
-                    + profilehtml
                     + '<span class="p3notice"></span>\n'
                     + '<span class="poweredbyp3">Powered by P&#179; for Empire Avenue</span>\n'
                     + '</div>\n');
