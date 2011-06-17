@@ -45,20 +45,29 @@ $('.tweet-text').each(function() {
               var youtubeurl = $(profilebox).find('div .youtube-top').attr('onclick');
               var profilehtml = '<div id="eavp3-profile-block">\n';
               profilehtml += '<div id="eavp3-profile-links">\n';
+              var socialized = false;
               if (typeof facebookurl !== 'undefined') {
                 profilehtml += '<a href="' + facebookurl + '" id="eavp3-profile-facebook"><img src="' + chrome.extension.getURL('images/facebook_16.png') + '" alt="Facebook" /></a>\n';
+                socialized = true;
               }
               if (typeof fanpageurl !== 'undefined') {
                 profilehtml += '<a href="' + fanpageurl + '" id="eavp3-profile-fanpage"><img src="' + chrome.extension.getURL('images/fb_fanpage_16.png') + '" alt="Facebook Fan Page" /></a>\n';
+                socialized = true;
               }
               if (typeof linkedinurl !== 'undefined') {
                 profilehtml += '<a href="' + linkedinurl + '" id="eavp3-profile-linkedin"><img src="' + chrome.extension.getURL('images/linkedin_16.png') + '" alt="LinkedIn" /></a>\n';
+                socialized = true;
               }
               if (typeof flickrurl !== 'undefined') {
                 profilehtml += '<a href="' + flickrurl + '" id="eavp3-profile-flickr"><img src="' + chrome.extension.getURL('images/flickr_16.png') + '" alt="Flickr" /></a>\n';
+                socialized = true;
               }
               if (typeof youtubeurl !== 'undefined') {
                 profilehtml += '<a href="' + youtubeurl + '" id="eavp3-profile-youtube"><img src="' + chrome.extension.getURL('images/youtube_16.png') + '" alt="Youtube" /></a>\n';
+                socialized = true;
+              }
+              if (socialized === false) {
+                profilehtml += 'No social connections found.';
               }
               profilehtml += '</div>\n</div>\n';
               $.facebox('<div id="facebox-wrap">\n'
@@ -69,10 +78,10 @@ $('.tweet-text').each(function() {
                     + '</div>\n'
                     + '<img src="' + json.sm_portrait + '" alt="" />\n'
                     + '<div class="userblock-right">\n'
-                    + '<span class="price" style="background-image: url(' + chrome.extension.getURL('e-26.png') + ')">' + parseFloat(json.last_trade).toFixed(2) + '</span><br/>\n'
+                    + '<span class="price" style="background-image: url(' + chrome.extension.getURL('e-26.png') + ')">' + parseFloat(json.last_trade).toFixed(2) + '</span>\n'
                     + '<span class="change" style="color:' + color + '">' + changetxt + '</span>\n'
-                    + '</div>\n'
                     + profilehtml
+                    + '</div>\n'
                     + '<hr/>\n'
                     + '<h6>Ticker Information</h6>\n'
                     + '<div class="infoblock">\n'
