@@ -23,9 +23,8 @@ function purchaseStats(stats) {
 	// Get ownership info
 	stats.ownership_value = parseFloat(stats.purchase_info_text.match(/[\d\.\,]+/)[0].replace(/,/, ""));
 	stats.ownership_gain = stats.purchase_info_text.match(/[\d\.\,]+\s+\(([\-\+][\d\.\,]+)/)[1].replace(/,/, "");
-	stats.gain_flg = (stats.ownership_gain.match(/^./)[0] == "-" ? false : true);
-	stats.ownership_gain = (stats.gain_flg ? parseFloat(stats.ownership_gain) : (-1)*stats.ownership_gain);
-	
+	stats.ownership_gain = parseFloat(stats.ownership_gain);
+
 	// Calculate purchase amount, original commissions paid, purchase price, and breakeven to overcome the 5% commission
 	stats.purchase_amount = round(stats.shares_owned * stats.price - stats.ownership_gain, 3);
 	stats.commissions_paid = round(stats.purchase_amount * 0.05, 3);
@@ -117,10 +116,10 @@ function outputStats(stats) {
 					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="This is the percentage gain you have earned, accounting for purchase and sale commissions and dividends you\'ve accumulated, based on your average purchase price."><li><strong>Total ROI with Dividends:</strong><span class="float-right">'+stats.roi+'%</span></li></title>');
 					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="This is how much you\'ve earned in total including dividends and the stock increase/decrease, accounting for the commissions you paid on purchase and commissions you would pay were you to sell at the current price."><li><strong>Total Return with Dividends:</strong><span class="float-right">'+(stats.total_return > 0 ? "+" : "")+stats.total_return+'</span></li></title>');
 					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="How many days it will take to accumulate enough dividends to reach your breakeven, based on your average daily dividends."><li><strong>Days to Pay Back (w/ Avg Daily Dividends):</strong><span class="float-right">'+(stats.effective_dividend_payback)+'</span></li></label>');
-					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="Your average daily dividend per share divided by your average purchase price."><li><strong>Daily Dividend Yield:</strong><span class="float-right">'+stats.effective_dividend_yield+'%</span></li></label>');
-					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="The average daily dividend you\'ve received per share."><li><strong>Avg Daily Dividend per Share:</strong><span class="float-right">'+stats.average_dividends_per_share+'</span></li></label>');
-					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="The average daily dividend you\'ve received from the stock."><li><strong>Avg Daily Dividend:</strong><span class="float-right">'+stats.average_dividends+'</span></li></label>');
-					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<li><strong>Accumulated Dividends in '+stats.dividend_days+' days:</strong><span class="float-right">'+stats.dividends+'</span></li>');
+					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="Your average daily dividend per share divided by your average purchase price."><li><strong>Your Daily Dividend Yield:</strong><span class="float-right">'+stats.effective_dividend_yield+'%</span></li></label>');
+					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="The average daily dividend you\'ve received per share."><li><strong>Your Avg Daily Dividend per Share:</strong><span class="float-right">'+stats.average_dividends_per_share+'</span></li></label>');
+					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<label title="The average daily dividend you\'ve received from the stock."><li><strong>Your Avg Daily Dividend:</strong><span class="float-right">'+stats.average_dividends+'</span></li></label>');
+					$(".influencer-stats ul li:contains('Shares Owned By You')").after('<li><strong>Your Accumulated Dividends in '+stats.dividend_days+' days:</strong><span class="float-right">'+stats.dividends+'</span></li>');
 					if(stats.total_return > 0) {
 						$(".influencer-stats ul li:contains('Total R') span").addClass("ticker-up").css("font-weight", "bold");
 					}
@@ -156,7 +155,7 @@ $(document).bind('DOMNodeInserted', function (e) {
 	// Check to see if the influencer-stats class was added and make sure we haven't already added the daily dividend yield
 	if(
 		$(".influencer-stats ul li:contains('Daily Dividend Yield')").length == 0
-		&& $(".influencer-stats ul li:contains('Shares They Own In You') span").length == 1
+		&& $(".influencer-stats ul li:contains('Shares They Own In You') span").length > 0
 	) {
 		// Get the stats
 		if ($('#quickview-rightV2').length == 0) {
@@ -164,7 +163,12 @@ $(document).bind('DOMNodeInserted', function (e) {
 		} else {
 		  stats.price = parseFloat($("span.profile-price").text());
 		}
-		stats.dividend = $(".influencer-stats ul li:contains('Daily Dividend/Share') span").text();
+		// Check for old portfolio
+		if($(".influencer-stats ul li:contains('Daily Dividend/Share') span").length > 0)
+			stats.dividend = $(".influencer-stats ul li:contains('Daily Dividend/Share') span").text();
+		// Otherwise we have the new portfolio
+		else
+			stats.dividend = $(".influencer-stats ul li:contains('Avg Dividend/Share') span").text();
 		stats.shares_owned = $(".influencer-stats ul li:contains('Shares Owned By You') span").first().text().match(/(\d+)\s?/)[1];
 		if(stats.shares_owned != "0") {
 			// Get the purchase info

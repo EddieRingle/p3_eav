@@ -26,7 +26,7 @@
     if (tab.url.match(/empireavenue.com/)) {
       if (changeInfo.status === 'complete') {
         chrome.tabs.executeScript(tabId, {file: "eavp3_eav_divyield.js"});
-        chrome.tabs.executeScript(tabId, {file: "eavp3_eav_analyzer.js"});
+//        chrome.tabs.executeScript(tabId, {file: "eavp3_eav_analyzer.js"});
       }
     }
 	if (tab.url.match(/empireavenue\.com\/search\/recent/)) {
